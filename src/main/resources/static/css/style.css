@@ -1,0 +1,89 @@
+* {
+  box-sizing: border-box;
+}
+
+img {
+	width: 250px; 
+	height: 250px;
+	object-fit: cover;
+}
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 4px;
+}
+.column {
+  flex: 25%;
+  padding: 0 4px;
+}
+
+.column .img-wrap {
+  margin: 2%;
+  vertical-align: middle;
+}
+
+@media screen and (max-width: 800px) {
+  .column {
+    -ms-flex: 50%;
+    flex: 50%;
+    max-width: 50%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .column {
+    -ms-flex: 100%;
+    flex: 100%;
+    max-width: 100%;
+  }
+}
+.img-wrap{
+	position: relative;
+    display: inline-block;
+	width: 250px; 
+	height: 250px;
+	text-align: center;
+	cursor: pointer;
+}
+.img-wrap .icon-delete{
+	color : black;
+  position: absolute;
+  top: 5%;
+  left: 5%;  
+}
+
+.img-wrap .icon-edit{
+  color : black;
+  position: absolute;
+  top: 5%;
+  left: 75%;  
+}
+
+.icon-delete:hover, .icon-edit:hover{
+	z-index : 999;
+  transform: scale(1.5); 
+}
+
+.img-wrap:hover{
+	z-index : 999;
+  transform: scale(1.1); 
+}
+
+/*https://bitsofco.de/styling-broken-images/*/
+img:after { 
+  content: "\f127" " Broken Image" ;
+  display: block;
+  font-size: 20px;
+  font-style: normal;
+  font-family: FontAwesome;
+  color: rgb(100, 100, 100);
+  position: absolute;
+  top: 35px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.bootstrap-tagsinput {
+  width: 100% !important;
+}

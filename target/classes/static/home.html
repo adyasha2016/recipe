@@ -1,0 +1,163 @@
+<!doctype html>
+<html>
+<head>
+<title>Recipes</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
+<script src="js/home.js"></script>
+
+</head>
+
+<body>
+	<div class="container">
+		<!-- Navigation bar -->
+		<nav class="navbar navbar-inverse">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="home">Home</a>
+				</div>
+				<ul class="nav navbar-nav">
+					<li><a class="navbar-brand"
+						style="cursor: pointer; margin-left: 5px;"
+						onclick="displayRecipeModalForCreate()">New Recipe</a></li>
+					<li><input class="form-control mr-sm-2" id="searchinput"
+						style="margin: 10px; width: 450px !important;" type="text"
+						placeholder="Search in this page by name, ingredient or cooking instruction"></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="logout"><span
+							class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+				</ul>
+			</div>
+		</nav>
+		<!--  Image grid for Recipes -->
+		<div class="col-md-12" style="text-align: center;">
+			<div class="row">
+				<div class="column" id="grid_column">
+					<!--  Dynamically created recipe grid  -->
+				</div>
+			</div>
+			<ul class="pagination pagination-sm" id="pagination_id"
+				style="cursor: pointer;">
+				<!-- Dynamically created pagination -->
+			</ul>
+		</div>
+	</div>
+
+	<!-- Modal for loading Recipe Details -->
+	<div class="modal fade" id="recipeModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="recipient-name" class="control-label">Recipe
+									Name:</label> <input type="text" class="form-control" id="recipe-name"
+									value="">
+							</div>
+							<div class="form-group">
+								<!-- https://bootstrap-tagsinput.github.io/bootstrap-tagsinput/examples/ -->
+								<label for="recipe-ingredient" class="control-label">Recipe
+									Ingredients:<small>(Enter comma seperated values)</small>
+								</label> <input type="text" data-role="tagsinput" id="recipe-ingredient"
+									class="form-control">
+							</div>
+							<div class="form-group">
+								<label for="recipe-description" class="control-label">Cooking
+									Instructions:</label>
+								<textarea class="form-control" rows="5" id="recipe-description"></textarea>
+							</div>
+							<div class="form-group">
+								<label for="recipe-isveg" class="control-label">Is
+									Vegetarian:</label> <select class="form-control" id="recipe-isveg">
+									<option value="true" selected>YES</option>
+									<option value="false">NO</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="recipe-suitablefor" class="control-label">Serves:
+								</label> <select class="form-control" id="recipe-suitablefor">
+									<option value="LESSTHANFIVE" selected>&lt;5</option>
+									<option value="FIVETOTEN">5-10</option>
+									<option value="MORETHANTEN">&gt;10</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label id="recipe-createdby-label" for="recipe-createdby"
+									class="control-label">Recipe Created By:</label> <label
+									class="form-control" id="recipe-createdby" disabled></label>
+							</div>
+							<div class="form-group">
+								<label id="recipe-createdat-label" for="recipe-createdat"
+									class="control-label">Recipe Created At:</label> <label
+									class="form-control" id="recipe-createdat" disabled></label>
+							</div>
+							<div class="form-group">
+								<label style="display: none; color: red;"
+									id="recipe-mandatory-label" class="control-label">NOTE:
+									ALL FIELDS ARE MANDATORY</label>
+							</div>
+						</div>
+
+						<div class="col-md-6">
+							<div class="form-group">
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Cancel">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="form-group" id="preview">
+								<img style="height: 300px; width: 350px; margin-top: 10px"
+									id="recipe-img" src="">
+							</div>
+							<form method="POST" enctype="multipart/form-data"
+								id="recipe-image-upload-form">
+								<div class="form-group">
+									<!-- https://stackoverflow.com/questions/4459379/preview-an-image-before-it-is-uploaded -->
+									<input type="file" id="recipe-img-input"
+										onchange="document.getElementById('recipe-img').style.display='block';document.getElementById('recipe-img').src = window.URL.createObjectURL(this.files[0])"
+										name="recipeImgFile">
+								</div>
+							</form>
+							<div class="form-group">
+								<label id="recipe-updatedby-label" for="recipe-updatedby"
+									class="control-label">Recipe Last Update By:</label> <label
+									class="form-control" id="recipe-updatedby" disabled></label>
+							</div>
+							<div class="form-group">
+								<label id="recipe-updatedat-label" for="recipe-updatedat"
+									class="control-label">Recipe Last Updated At:</label> <label
+									class="form-control" id="recipe-updatedat" disabled></label>
+							</div>
+							<div class="form-group" style="margin-top: 40px;">
+								<button type="button" class="btn btn-primary"
+									id="recipe-edit-button">Save</button>							
+								<button type="button" class="btn btn-danger"
+									id="recipe-delete-button">Delete</button>								
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">Close</button>					
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
